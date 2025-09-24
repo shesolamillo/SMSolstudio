@@ -1,0 +1,465 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SMSol Studio{% endblock %}
+
+{% block body %}
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        background: #6a6a6aff;
+        color: #111827;
+    }
+
+    .header {
+        background: #5a5b5dff;
+        color: white;
+        padding: 0px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+         box-shadow: 0 10px 20px rgba(0,0,0,0.4); /* shadow effect */
+         border: 0.2px solid gray;
+         position: sticky;
+        z-index: 1000;
+        top: 20px;   /* gap gikan sa taas */
+        margin-top: 10px; /* optional para mas klaro */
+        border-radius: 50px;  /* curve corners */
+        width:95%;
+        height: 70px;
+        
+            
+
+    }
+
+    .header h1 {
+        font-size: 1.5rem; 
+        margin: 0;
+    }
+
+    .nav {
+        
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .nav a {
+        color: white;
+        text-decoration: none;
+        margin-left: 20px;
+        font-weight: 600;
+        font-size: 0.95rem;
+
+    }
+
+    .nav a:hover {
+        text-decoration: underline;
+        color: white;
+        background: #6a6b6cff;;
+    }
+    .hero {
+    text-align: center;
+    padding: 80px 20px;
+    background: url('{{ asset("images/outfitfamily.png") }}') center/contain no-repeat;
+    background-color: #4b4a4aff;
+    color: white;
+    height: 700px;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden; /* para ang circles dili molapas */
+}
+
+/* Decorative circle 1 */
+.hero::before {
+    content: "";
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: rgba(113, 112, 112, 0.1); 
+    border-radius: 50%;
+    top: 50px;
+    left: 50px;
+}
+
+/* Decorative circle 2 */
+.hero::after {
+    content: "";
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: rgba(114, 112, 112, 0.1);
+    border-radius: 50%;
+    bottom: -100px;
+    right: -100px;
+}   
+
+    .circle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+/* Sizes */
+.circle.small {
+    width: 80px;
+    height: 80px;
+    top: 50px;
+    left: 100px;
+}
+
+.circle.medium {
+    width: 150px;
+    height: 150px;
+    bottom: 80px;
+    left: 200px;
+}
+
+.circle.large {
+    width: 250px;
+    height: 250px;
+    top: 120px;
+    right: 100px;
+}
+
+.circle.xlarge {
+    width: 400px;
+    height: 400px;
+    bottom: -150px;
+    right: -150px;
+}
+
+    .hero h2 {
+        font-size: 2.5em;
+        margin-bottom: 20px;
+        drop-shadow(0.2px 0 0 white) 
+        
+    }
+
+    .hero p {
+        font-size: 1.2em;
+        margin-bottom: 30px;
+        drop-shadow(0.2px 0 0 white) 
+    }
+
+    .hero button {
+        padding: 15px 30px;
+        background: #672867ff;
+        color: #d7d3d7ff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: transform 0.3s;
+        drop-shadow(0.2px 0 0 white) 
+    }
+
+    .hero button:hover {
+        transform: scale(1.05);
+    }
+
+    .products {
+        max-width: 1200px;
+        margin: 60px auto;
+        padding: 0 20px;
+        text-align: center;
+    }
+
+    .products h2 {
+        margin-bottom: 40px;
+    }
+
+    .product-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+    }
+
+    .product-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        width: 250px;
+        box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+    }
+
+    .product-card img {
+        width: 100%;
+        border-radius: 12px;
+        margin-bottom: 15px;
+    }
+
+    .product-card h3 {
+        margin: 10px 0;
+    }
+
+    .product-card p {
+        color: #6b7280;
+        margin-bottom: 10px;
+    }
+
+    .product-card button {
+        padding: 10px 20px;
+        background: #764ba2;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    .product-card button:hover {
+        background: #667eea;
+    }
+
+    footer {
+        background: #111827;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        margin-top: 60px;
+    }
+
+    @media (max-width: 768px) {
+        .product-grid {
+            flex-direction: column;
+            align-items: center;
+        }
+        .hero h2 {
+            font-size: 2em;
+        }
+    }
+
+    .header-search {
+        padding: 5px 10px;
+        border-radius: 20px;
+        border: none;
+        outline: none;
+        font-size: 0.9rem;
+    }
+
+    .login-btn {
+        padding: 8px 16px;
+        background: #764ba2;
+        color: white;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background 0.3s;
+    }
+
+    .login-btn:hover {
+        background: #667eea;
+    }
+
+    @media (max-width: 768px) {
+        .header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .nav {
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .header-search {
+            width: 100%;
+        }
+    }
+
+
+    .clothes {
+        position: relative;
+        overflow: hidden;
+        color: white;
+        text-align: center;
+        padding: 60px 20px;
+        margin-top: 40px;
+        border-radius: 12px;
+        min-height: 300px;
+        height: 600px;
+        
+    }
+
+
+
+
+    .clothes-video {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        object-fit: contain; /* pun-on ang section */
+        transform: translate(-50%, -50%);
+        z-index: -1; /* content sa ibabaw */
+        background: gray;
+       
+    }
+
+    .clothes-buttons button {
+        padding: 12px 25px;
+        margin: 10px;
+        border: none;
+        border-radius: 8px;
+        background: #764ba2;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.3s, transform 0.2s;
+    }
+
+    .clothes-buttons button:hover {
+        background: #667eea;
+        transform: scale(1.05);
+    }
+
+    .clothes-content {
+        position: relative;
+        z-index: 1;
+    }
+
+
+
+    .logo {
+    width: 120px;
+    height: auto;
+    filter: 
+        drop-shadow(0.2px 0 0 white) 
+        drop-shadow(-0.2px 0 0 white) 
+        drop-shadow(0 0.2px 0 white) 
+        drop-shadow(0 -0.2px 0 white);
+}
+
+
+    .hero-img {
+        width: 1800px;    /* occupy full width sa hero */
+        height: auto;   /* automatic proportional height */
+        display: block;
+        max-width: 1200px; /* optional, kung gusto limit sa very large screens */
+        margin: 0 auto;
+    
+    }
+
+
+
+
+
+
+
+</style>
+
+<header class="header">
+    <div class="logo-container">
+        <img src="/images/logo.png" alt="SMSol Studio Logo" class="logo">
+    </div>
+    <nav class="nav">
+        <a href="/">Home</a>
+        <a href="#products">Products</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <input type="text" placeholder="Search..." class="header-search">
+        <a href="/login" class="login-btn">Login</a>
+    </nav>
+</header>
+
+
+
+
+<section class="hero">
+    <h2>Fashion for All</h2>
+    <p>Stylish clothing for humans and pets — modern, affordable, and for everyone.</p>
+    <button>Shop Now</button>
+
+    <!-- Decorative circles -->
+    <div class="circle small"></div>
+    <div class="circle medium"></div>
+    <div class="circle large"></div>
+    <div class="circle xlarge"></div>
+
+
+
+</section>
+
+<section class="clothes">
+    <!-- Video Background -->
+    <video class="clothes-video" autoplay muted loop playsinline>
+        <source src="{{ asset('videos/promo.mp4') }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Text + Buttons -->
+    <div class="clothes-content">
+        <h2>Promos Today</h2>
+        <p>Grab the hottest deals for today! Choose your category:</p>
+        <div class="clothes-buttons">
+            <button id="clothes-people">For Humans</button>
+            <button id="clothes-pet">For Pets</button>
+        </div>
+    </div>
+</section>
+
+
+
+<section class="products" id="products">
+    <h2>Featured Products</h2>
+    <div class="product-grid">
+        <div class="product-card">
+            <img src="https://via.placeholder.com/250x250.png?text=T-Shirt" alt="T-Shirt">
+            <h3>Casual T-Shirt</h3>
+            <p>P25</p>
+            <button>Add to Cart</button>
+        </div>
+        <div class="product-card">
+            <img src="https://via.placeholder.com/250x250.png?text=Jeans" alt="Jeans">
+            <h3>Blue Jeans</h3>
+            <p>P50</p>
+            <button>Add to Cart</button>
+        </div>
+        <div class="product-card">
+            <img src="{{asset('images/petshirt.png')}}" alt="Pet Shirt">
+            <h3>Pet Shirt</h3>
+            <p>P50</p>
+            <button>Add to Cart</button>
+        </div>
+        <div class="product-card">
+            <img src="https://via.placeholder.com/250x250.png?text=Dress" alt="Dress">
+            <h3>Summer Dress</h3>
+            <p>P75</p>
+            <button>Add to Cart</button>
+        </div>
+    </div>
+</section>
+
+
+<script>
+// Reuse the existing product filter from earlier
+const productsGrid = document.getElementById('product-grid');
+
+document.getElementById('promo-people').addEventListener('click', () => {
+    loadProducts('people'); // Load human products
+    location.href = '#products'; // Scroll to products section
+});
+
+document.getElementById('promo-pet').addEventListener('click', () => {
+    loadProducts('pet'); // Load pet products
+    location.href = '#products'; // Scroll to products section
+});
+</script>
+
+
+
+<footer>
+    &copy; 2025 SMSol Studio. All rights reserved.
+</footer>
+{% endblock %}
